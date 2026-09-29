@@ -1,0 +1,7 @@
+<h1>Besoin par produit et par semaine</h1>
+<% if alert %><p style="color:#b00020"><%= alert %></p><% end %>
+<%= form_with url: besoin_path, multipart: true, data: { turbo: false } do |f| %>
+  <%= f.file_field :file, accept: ".csv,text/csv", required: true %>
+  <%= f.submit "Calculer le besoin" %>
+<% end %>
+<p>Colonnes attendues : <code>Type, Statuts, Date, CodeArticle, Qté réceptionnée</code> (export Airtable).</p>

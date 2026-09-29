@@ -1,0 +1,28 @@
+<h1>Besoin par produit et par semaine</h1>
+<p><%= link_to "← Nouveau fichier", root_path %></p>
+<% if @warnings.any? %>
+  <details open style="color:#b45f06">
+    <summary><strong><%= @warnings.size %> ligne(s) ignorée(s)</strong></summary>
+    <ul><% @warnings.each do |w| %><li><%= w %></li><% end %></ul>
+  </details>
+<% end %>
+<% @result.each do |produit, lines| %>
+  <h2><%= produit %></h2>
+  <table border="1" cellpadding="6" style="border-collapse:collapse">
+    <thead><tr><th>Semaine</th><th>Achats (entrées)</th><th>Ventes (sorties)</th><th>Solde</th><th>Cumul</th><th>Besoin</th></tr></thead>
+    <tbody>
+      <% lines.each do |semaine, l| %>
+        <tr>
+          <td><%= semaine %></td>
+          <td><%= number_with_precision(l.achats, precision: 2, strip_insignificant_zeros: true) %></td>
+          <td><%= number_with_precision(l.ventes, precision: 2, strip_insignificant_zeros: true) %></td>
+          <td><%= number_with_precision(l.solde, precision: 2, strip_insignificant_zeros: true) %></td>
+          <td><%= number_with_precision(l.cumul, precision: 2, strip_insignificant_zeros: true) %></td>
+          <td style="<%= 'color:#b00020;font-weight:bold' if l.cumul.negative? %>">
+            <%= l.cumul.negative? ? number_with_precision(-l.cumul, precision: 2, strip_insignificant_zeros: true) : "—" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
