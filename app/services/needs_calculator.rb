@@ -46,6 +46,25 @@ class NeedsCalculator
     end
   end
 
+  def by_week
+    per_product = call
+    lookup = per_product.transform_values(&:to_h)
+    semaines = lookup.values.flat_map(&:keys).uniq.sort
+    cumuls = Hash.new(0.0)
+
+    semaines.map do |semaine|
+      lines = lookup.map do |produit, weeks|
+        if (l = weeks[semaine])
+          cumuls[produit] = l.cumul
+          [produit, l]
+        else
+          [produit, Line.new(achats: 0.0, ventes: 0.0, solde: 0.0, cumul: cumuls[produit])]
+        end
+      end
+      [semaine, lines]
+    end
+  end
+
   private
 
   def parse

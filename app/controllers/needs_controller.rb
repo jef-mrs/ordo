@@ -6,7 +6,7 @@ class NeedsController < ApplicationController
     return redirect_to(root_path, alert: "Choisis un fichier CSV.") if file.blank?
 
     calculator = NeedsCalculator.new(file.read)
-    @result = calculator.call
+    @result = calculator.by_week
     @warnings = calculator.warnings
     render :show
   rescue NeedsCalculator::Error => e

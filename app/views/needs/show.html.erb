@@ -6,14 +6,14 @@
     <ul><% @warnings.each do |w| %><li><%= w %></li><% end %></ul>
   </details>
 <% end %>
-<% @result.each do |produit, lines| %>
-  <h2><%= produit %></h2>
+<% @result.each do |semaine, lines| %>
+  <h2>Semaine <%= semaine %></h2>
   <table border="1" cellpadding="6" style="border-collapse:collapse">
-    <thead><tr><th>Semaine</th><th>Achats (entrées)</th><th>Ventes (sorties)</th><th>Solde</th><th>Cumul</th><th>Besoin</th></tr></thead>
+    <thead><tr><th>Article</th><th>Achats (entrées)</th><th>Ventes (sorties)</th><th>Solde</th><th>Cumul</th><th>Besoin</th></tr></thead>
     <tbody>
-      <% lines.each do |semaine, l| %>
-        <tr>
-          <td><%= semaine %></td>
+      <% lines.each do |produit, l| %>
+        <tr style="<%= 'color:#999' if l.achats.zero? && l.ventes.zero? %>">
+          <td><%= produit %></td>
           <td><%= number_with_precision(l.achats, precision: 2, strip_insignificant_zeros: true) %></td>
           <td><%= number_with_precision(l.ventes, precision: 2, strip_insignificant_zeros: true) %></td>
           <td><%= number_with_precision(l.solde, precision: 2, strip_insignificant_zeros: true) %></td>
